@@ -6,13 +6,7 @@ import {
   // OneToMany
 } from 'typeorm'
 import { Exclude } from 'class-transformer'
-import {
-  MinLength,
-  IsString,
-  IsEmail,
-  IsMobilePhone,
-  IsBoolean
-} from 'class-validator'
+import { MinLength, IsString, IsEmail } from 'class-validator'
 import * as bcrypt from 'bcrypt'
 // import { Player } from '../games/entities'
 
@@ -40,17 +34,6 @@ export default class User extends BaseEntity {
   @Column('text')
   @Exclude({ toPlainOnly: true })
   password: string
-
-  // @IsMobilePhone('en-NL')
-  // @Column('text', { nullable: false })
-  // telephoneNumber: string
-
-  // @IsBoolean()
-  // @Column('text')
-  // isAdmin: boolean
-
-  // @Column('text', { nullable: true })
-  // adds: number[]
 
   async setPassword(rawPassword: string) {
     const hash = await bcrypt.hash(rawPassword, 10)
