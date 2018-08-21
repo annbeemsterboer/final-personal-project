@@ -7,6 +7,7 @@ import EventList from './components/Events/EventList'
 import EventDetails from './components/Events/EventDetails'
 import './App.css'
 import TopBar from './components/layout/TopBar'
+import TicketDetails from './components/Events/TicketDetails'
 
 // <Route exact path="/signup" component={SignupPage} />
 // <Route exact path="/games" component={GamesList} />
@@ -26,11 +27,11 @@ class App extends Component {
             <Route exact path="/signup" component={SignupPage} />
             <Route exact path="/events" component={EventList} />
             <Route exact path="/events/:id" component={EventDetails} />
-            {/* <Route
+            <Route
               exact
               path="/events/:eventId/tickets/:ticketId"
               component={TicketDetails}
-            /> */}
+            />
             <Route exact path="/" render={() => <Redirect to="/events" />} />
           </main>
         </div>

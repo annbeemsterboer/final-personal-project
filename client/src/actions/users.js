@@ -14,6 +14,8 @@ export const USER_LOGOUT = 'USER_LOGOUT'
 export const USER_SIGNUP_SUCCESS = 'USER_SIGNUP_SUCCESS'
 export const USER_SIGNUP_FAILED = 'USER_SIGNUP_FAILED'
 
+export const GET_POSTER = 'GET_POSTER'
+
 export const logout = () => ({
   type: USER_LOGOUT
 })
@@ -89,5 +91,19 @@ export const getUsers = () => (dispatch, getState) => {
     .get(`${baseUrl}/users`)
     .set('Authorization', `Bearer ${jwt}`)
     .then(result => dispatch(updateUsers(result.body)))
+    .catch(err => console.error(err))
+}
+
+export const getPosterById = userId => dispatch => {
+  console.log('here')
+  request
+    .get(`${baseUrl}/users/${userId}`)
+    // .set('Authorization', `Bearer ${jwt}`)
+    .then(response =>
+      dispatch({
+        type: GET_POSTER,
+        payload: response.body
+      })
+    )
     .catch(err => console.error(err))
 }
