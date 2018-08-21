@@ -47,4 +47,7 @@ export class Comment extends BaseEntity {
 
   @Column('int')
   userId: number
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date
 }

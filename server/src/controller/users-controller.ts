@@ -19,7 +19,7 @@ export default class UserController {
     return entity.save()
   }
 
-  @Authorized()
+  // @Authorized()
   @Get('/users')
   allUsers() {
     return User.find()

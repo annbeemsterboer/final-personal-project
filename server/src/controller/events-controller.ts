@@ -13,7 +13,7 @@ import {
   Params
 } from 'routing-controllers'
 import Event from '../entity/events-entity'
-import { Ticket } from '../entity/tickets-entity'
+import { Ticket, Comment } from '../entity/tickets-entity'
 
 @JsonController()
 export default class EventController {
@@ -43,6 +43,9 @@ export default class EventController {
     @Param('ticketID') ticketID: number
   ) {
     const ticketsForEvent = await Ticket.find({ where: { eventId: eventID } })
-    return ticketsForEvent.find(ticket => ticket.id === ticketID)
+    const ticket = await ticketsForEvent.find(ticket => ticket.id === ticketID)
+    const comments = await Comment.find({ where: { ticketId: ticketID } })
+
+    return { ticket, comments }
   }
 }
