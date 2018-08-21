@@ -31,13 +31,18 @@ export default class EventController {
     return { event }
   }
 
-  @Get('/events/:eventId/tickets')
-  getTicketsForEvent(@Param('eventId') eventId) {
-    return Ticket.find({ where: { eventId: eventId } })
+  @Get('/events/:eventID/tickets')
+  // get tickets where tickets-eventId === :eventId
+  getTicketsForEvent(@Param('eventID') eventID) {
+    return Ticket.find({ where: { eventId: eventID } })
   }
 
-  @Get('/events/:eventId/tickets/:ticketId')
-  getTicketDetails(@Param('ticketId') ticketId) {
-    return Ticket.findOne(ticketId)
+  @Get('/events/:eventID/tickets/:ticketID')
+  async getTicketDetails(
+    @Param('eventID') eventID: number,
+    @Param('ticketID') ticketID: number
+  ) {
+    const ticketsForEvent = await Ticket.find({ where: { eventId: eventID } })
+    return ticketsForEvent.find(ticket => ticket.id === ticketID)
   }
 }

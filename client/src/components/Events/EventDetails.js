@@ -46,35 +46,6 @@ class EventDetails extends PureComponent {
   }
 }
 
-//    <p>{currentEvent.event.eventName}</p>
-//         <TicketList eventId={this.props.match.params.id} />
-
-// <Grid container spacing={12} direction={'column'}>
-//         {events.map(event => {
-//           return (
-//             <Grid
-//               item
-//               style={{
-//                 paddingBottom: '10px',
-//                 paddingTop: '10px'
-//               }}
-//             >
-//               <Card>
-//                 <CardContent>
-//                   <Typography>{event.eventName}</Typography>
-//                   <Typography>{event.description}</Typography>
-//                 </CardContent>
-//                 <CardActions>
-//                   <Button size="small" color="primary">
-//                     <Link to={`/events/${event.id}`}>Learn More </Link>
-//                   </Button>
-//                 </CardActions>
-//               </Card>
-//             </Grid>
-//           )
-//         })}
-//       </Grid>
-
 const mapStateToProps = state => {
   return {
     currentEvent: state.currentEvent
