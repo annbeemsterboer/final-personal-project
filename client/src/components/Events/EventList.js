@@ -8,20 +8,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
 import Grid from '@material-ui/core/Grid'
-
-const styles = {
-  card: {},
-  title: {
-    marginBottom: 16,
-    fontSize: 14
-  },
-  pos: {
-    marginBottom: 12
-  }
-}
 
 class EventList extends PureComponent {
   state = {
@@ -45,9 +32,8 @@ class EventList extends PureComponent {
   render() {
     const { events } = this.props
     if (!events) return 'fetching events..'
-    console.log(events)
     return (
-      <Grid container spacing={12} direction={'column'}>
+      <Grid container spacing={8} direction={'column'}>
         {events.map(event => {
           return (
             <Grid
@@ -62,6 +48,11 @@ class EventList extends PureComponent {
                   <Typography>{event.eventName}</Typography>
                   <Typography>{event.description}</Typography>
                 </CardContent>
+                <CardActions>
+                  <Button size="small" color="primary">
+                    <Link to={`/events/${event.id}`}>See tickets </Link>
+                  </Button>
+                </CardActions>
               </Card>
             </Grid>
           )
@@ -73,7 +64,7 @@ class EventList extends PureComponent {
 
 const mapStateToProps = function(state) {
   return {
-    events: state.events.events
+    events: state.events
   }
 }
 export default connect(

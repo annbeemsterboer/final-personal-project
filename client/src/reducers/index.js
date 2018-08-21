@@ -5,6 +5,7 @@ import currentUser from './currentUser'
 import signup from './signup'
 import events from './events'
 import tickets from './tickets'
+import currentEvent from './currentEvent'
 
 export default {
   // games,
@@ -13,5 +14,6 @@ export default {
   currentUser,
   signup,
   events,
+  currentEvent,
   tickets
 }
