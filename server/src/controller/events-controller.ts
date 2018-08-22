@@ -81,6 +81,13 @@ export default class EventController {
     }
   }
 
+  @Authorized()
+  @Post('/events')
+  @HttpCode(201)
+  createAdd(@Body() event: Event) {
+    return event.save()
+  }
+
   ////// ??????????
   @Post('/events/:eventID/tickets/:ticketID')
   @HttpCode(201)

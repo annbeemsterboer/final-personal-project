@@ -95,7 +95,6 @@ export const getUsers = () => (dispatch, getState) => {
 }
 
 export const getPosterById = userId => dispatch => {
-  console.log('here')
   request
     .get(`${baseUrl}/users/${userId}`)
     // .set('Authorization', `Bearer ${jwt}`)

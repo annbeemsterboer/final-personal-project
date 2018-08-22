@@ -7,7 +7,6 @@ import {
 } from '../../actions/events'
 import { getPosterById } from '../../actions/users'
 import Card from '@material-ui/core/Card'
-import Comments from './Comments'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 // import CardMedia from '@material-ui/core/CardMedia'
@@ -77,14 +76,11 @@ class TicketDetails extends PureComponent {
       }
     }
     if (postHours > 9 && postHours < 17) {
-      console.log('businessHours')
       fraudFactor = fraudFactor - 0.13
     } else {
-      console.log('after-hours')
       fraudFactor = fraudFactor + 0.13
     }
     if (this.props.comments.length > 3) {
-      console.log('more than 3c')
       fraudFactor = fraudFactor + 0.06
     }
 
@@ -96,55 +92,52 @@ class TicketDetails extends PureComponent {
   }
 
   render() {
-    const { currentTicket, poster, comments, fraudParams } = this.props
-    console.log(this.props.fraudParams)
-    if (!currentTicket || !poster | !fraudParams) return 'loading ..'
-    if (fraudParams)
-      return (
-        <div>
-          <Grid>
-            <CardContent>
-              <Typography gutterBottom variant="headline" component="h1">
-                Ticket from: {poster.firstName}
-                <Typography>Price: {currentTicket.price}</Typography>
-                <Typography>
-                  Description: {currentTicket.description}
-                </Typography>
-                <Typography>
-                  The calculated fraud-risk is:{' '}
-                  {parseInt(this.calculateFraudRisk() * 100)} %
-                </Typography>
+    const { currentTicket, comments, fraudParams } = this.props
+    if (!currentTicket || !fraudParams.ticketPoster) return 'loading ..'
+    return (
+      <div>
+        <Grid>
+          <CardContent>
+            <Typography gutterBottom variant="headline" component="h1">
+              Ticket from: {fraudParams.ticketPoster.firstName}{' '}
+              {fraudParams.ticketPoster.lastName}
+              <Typography>Price: EUR {currentTicket.price}</Typography>
+              <Typography>Description: {currentTicket.description}</Typography>
+              <Typography>
+                The calculated fraud-risk for this ticket is:{' '}
+                {parseInt(this.calculateFraudRisk() * 100)} %
               </Typography>
+            </Typography>
 
-              <Grid>
-                {comments.map(comment => {
-                  return (
-                    <Card
-                      style={{
-                        paddingBottom: '10px',
-                        paddingTop: '10px',
-                        margin: 12
-                      }}
-                    >
-                      At {comment.createdAt}, {comment.userId} said{' '}
-                      {comment.comment}
-                    </Card>
-                  )
-                })}
-              </Grid>
-              <CardActions>
-                <Button
-                  size="small"
-                  color="primary"
-                  // onclick={}
-                >
-                  Add comment
-                </Button>
-              </CardActions>
-            </CardContent>
-          </Grid>
-        </div>
-      )
+            <Grid>
+              {comments.map(comment => {
+                return (
+                  <Card
+                    style={{
+                      paddingBottom: '10px',
+                      paddingTop: '10px',
+                      margin: 12
+                    }}
+                  >
+                    At {new Date(comment.createdAt).toUTCString()},{' '}
+                    {comment.userId} posted: {comment.comment}
+                  </Card>
+                )
+              })}
+            </Grid>
+            <CardActions>
+              <Button
+                size="small"
+                color="primary"
+                // onclick={}
+              >
+                Add comment
+              </Button>
+            </CardActions>
+          </CardContent>
+        </Grid>
+      </div>
+    )
   }
 }
 
@@ -154,7 +147,6 @@ const mapStateToProps = state => {
     events: state.events,
     tickets: state.tickets,
     currentTicket: state.currentTicket,
-    poster: state.poster,
     comments: state.comments,
     fraudParams: state.fraudParams
   }

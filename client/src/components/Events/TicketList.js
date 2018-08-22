@@ -19,6 +19,7 @@ class EventDetails extends PureComponent {
     const { tickets } = this.props
 
     if (!tickets) return 'loading..'
+    if (tickets.length < 1) return <div>There are no tickets yet..</div>
     return (
       <div>
         {tickets.map(ticket => {
