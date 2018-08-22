@@ -5,6 +5,9 @@ export const GET_ALL_EVENTS = 'GET_ALL_EVENTS'
 export const GET_EVENT_DETAILS = 'GET_EVENT_DETAILS'
 export const GET_TICKETS = 'GET_TICKETS'
 export const GET_TICKET_DETAILS = 'GET_TICKET_DETAILS'
+export const GET_COMMENTS = 'GET_COMMENTS'
+export const UPDATE_COMMENTS = 'UPDATE_COMMENTS'
+export const GET_FRAUD_PARAMS = 'GET_FRAUD_PARAMS'
 
 export const getAllEvents = () => dispatch => {
   request
@@ -46,8 +49,38 @@ export const getTicketDetails = (eventId, ticketId) => dispatch => {
   request
     .get(`${baseUrl}/events/${eventId}/tickets/${ticketId}`)
     .then(response =>
+      dispatch(
+        {
+          type: GET_COMMENTS,
+          payload: response.body.comments
+        },
+        dispatch({
+          type: GET_TICKET_DETAILS,
+          payload: response.body.ticket
+        })
+      )
+    )
+    .catch(err => alert(err))
+}
+
+export const updateComments = (eventId, ticketId) => dispatch => {
+  request
+    .get(`${baseUrl}/events/${eventId}/tickets/${ticketId}`)
+    .then(response =>
       dispatch({
-        type: GET_TICKET_DETAILS,
+        type: UPDATE_COMMENTS,
+        payload: response.body.comments
+      })
+    )
+    .catch(err => alert(err))
+}
+
+export const getFraudParams = (eventId, ticketId) => dispatch => {
+  request
+    .get(`${baseUrl}/events/${eventId}/tickets/${ticketId}`)
+    .then(response =>
+      dispatch({
+        type: GET_FRAUD_PARAMS,
         payload: response.body
       })
     )

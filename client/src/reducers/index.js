@@ -7,6 +7,8 @@ import events from './events'
 import tickets from './tickets'
 import currentEvent from './currentEvent'
 import currentTicket from './currentTicket'
+import comments from './comments'
+import fraudParams from './fraudParams'
 
 export default {
   // games,
@@ -17,5 +19,7 @@ export default {
   events,
   currentEvent,
   tickets,
-  currentTicket
+  currentTicket,
+  comments,
+  fraudParams
 }
