@@ -15,27 +15,6 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 
-const calculateFraudRisk = () => {
-  let fraudFactor = 0.02
-
-  if (this.props.fraudParams.numberOfTicketsForTicketPoster === 1) {
-    fraudFactor = fraudFactor + 0.04
-  }
-  // if (
-  //   Number(this.props.fraudParams.ticket.price) <
-  //   this.props.fraudParams.avgTicketPrice
-  // ) {
-  //   const priceDiffFactor =
-  //     this.props.fraudParams.avgTicketPrice -
-  //     Number(this.props.fraudParams.ticket.price) /
-  //       this.props.fraudParams.avgTicketPrice
-  //   console.log(priceDiffFactor)
-  //   // fraudFactor = fraudFactor + 1
-  // }
-  console.log(fraudFactor)
-}
-calculateFraudRisk()
-
 class TicketDetails extends PureComponent {
   componentDidMount() {
     this.props.getTicketDetails(
@@ -67,58 +46,105 @@ class TicketDetails extends PureComponent {
   //     this.props.addComment()
   //   }
 
+  calculateFraudRisk = () => {
+    let fraudFactor = 0.02
+    const postTime = new Date(this.props.currentTicket.createdAt)
+    const postHours = postTime.getHours()
+
+    if (this.props.fraudParams.numberOfTicketsForTicketPoster === 1) {
+      fraudFactor = fraudFactor + 0.04
+    }
+    if (
+      this.props.currentTicket.price <= this.props.fraudParams.avgTicketPrice
+    ) {
+      const priceDiffLess =
+        (this.props.fraudParams.avgTicketPrice -
+          this.props.currentTicket.price) /
+        this.props.fraudParams.avgTicketPrice
+      fraudFactor = fraudFactor + priceDiffLess
+    }
+    if (
+      this.props.currentTicket.price > this.props.fraudParams.avgTicketPrice
+    ) {
+      const priceDiffMore =
+        (this.props.currentTicket.price -
+          this.props.fraudParams.avgTicketPrice) /
+        this.props.fraudParams.avgTicketPrice
+      if (priceDiffMore < 0.15) {
+        fraudFactor = fraudFactor - priceDiffMore
+      } else {
+        fraudFactor = fraudFactor - 0.15
+      }
+    }
+    if (postHours > 9 && postHours < 17) {
+      console.log('businessHours')
+      fraudFactor = fraudFactor - 0.13
+    } else {
+      console.log('after-hours')
+      fraudFactor = fraudFactor + 0.13
+    }
+    if (this.props.comments.length > 3) {
+      console.log('more than 3c')
+      fraudFactor = fraudFactor + 0.06
+    }
+
+    if (fraudFactor < 0.02) {
+      return (fraudFactor = 0.02)
+    } else if (fraudFactor > 0.98) {
+      return (fraudFactor = 0.98)
+    } else return fraudFactor
+  }
+
   render() {
-    const {
-      currentEvent,
-      events,
-      tickets,
-      currentTicket,
-      poster,
-      comments
-    } = this.props
+    const { currentTicket, poster, comments, fraudParams } = this.props
     console.log(this.props.fraudParams)
-    if (!currentTicket || !poster) return 'loading ..'
+    if (!currentTicket || !poster | !fraudParams) return 'loading ..'
+    if (fraudParams)
+      return (
+        <div>
+          <Grid>
+            <CardContent>
+              <Typography gutterBottom variant="headline" component="h1">
+                Ticket from: {poster.firstName}
+                <Typography>Price: {currentTicket.price}</Typography>
+                <Typography>
+                  Description: {currentTicket.description}
+                </Typography>
+                <Typography>
+                  The calculated fraud-risk is:{' '}
+                  {parseInt(this.calculateFraudRisk() * 100)} %
+                </Typography>
+              </Typography>
 
-    return (
-      <div>
-        <Grid>
-          <CardContent>
-            <Typography gutterBottom variant="headline" component="h1">
-              Ticket from: {poster.firstName}
-              <Typography>Price: {currentTicket.price}</Typography>
-              <Typography>Description: {currentTicket.description}</Typography>
-              <Typography>Bla</Typography>
-            </Typography>
-
-            <Grid>
-              {comments.map(comment => {
-                return (
-                  <Card
-                    style={{
-                      paddingBottom: '10px',
-                      paddingTop: '10px',
-                      margin: 12
-                    }}
-                  >
-                    At {comment.createdAt}, {comment.userId} said{' '}
-                    {comment.comment}
-                  </Card>
-                )
-              })}
-            </Grid>
-            <CardActions>
-              <Button
-                size="small"
-                color="primary"
-                // onclick={}
-              >
-                Add comment
-              </Button>
-            </CardActions>
-          </CardContent>
-        </Grid>
-      </div>
-    )
+              <Grid>
+                {comments.map(comment => {
+                  return (
+                    <Card
+                      style={{
+                        paddingBottom: '10px',
+                        paddingTop: '10px',
+                        margin: 12
+                      }}
+                    >
+                      At {comment.createdAt}, {comment.userId} said{' '}
+                      {comment.comment}
+                    </Card>
+                  )
+                })}
+              </Grid>
+              <CardActions>
+                <Button
+                  size="small"
+                  color="primary"
+                  // onclick={}
+                >
+                  Add comment
+                </Button>
+              </CardActions>
+            </CardContent>
+          </Grid>
+        </div>
+      )
   }
 }
 
