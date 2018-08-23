@@ -6,27 +6,23 @@ import { createEvent } from '../../actions/events'
 import { Redirect } from 'react-router-dom'
 
 class EventForm extends PureComponent {
-  componentDidMount() {
-    if (this.props.authenticated === false) {
-      return <Redirect to="/login" />
-    }
+  state = {
+    userId: this.props.userId
   }
 
-  state = {}
-
   onSubmit = event => {
-    this.props.createEvent(this.state)
+    this.props.createEvent(event)
+    this.props.history.push('/events')
   }
 
   handleSubmit = event => {
     event.preventDefault()
     this.setState({
       eventName: '',
-      eventDescription: '',
-      pictureUrl: '',
+      description: '',
+      imgUrl: '',
       startDate: '',
-      endDate: '',
-      userId: this.props.currentUser.userId
+      endDate: ''
     })
     this.onSubmit(this.state)
   }
@@ -37,7 +33,6 @@ class EventForm extends PureComponent {
     this.setState({
       [name]: value
     })
-    console.log(this.state)
   }
 
   render() {
@@ -45,7 +40,6 @@ class EventForm extends PureComponent {
       return <Redirect to="/login" />
     }
     const initialValues = this.props.initialValues || {}
-    console.log(this.props)
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
@@ -63,28 +57,28 @@ class EventForm extends PureComponent {
         </div>
 
         <div>
-          <label htmlFor="eventDescription">Event description</label>
+          <label htmlFor="description">Event description</label>
           <input
-            name="eventDescription"
-            id="eventDescription"
+            name="description"
+            id="description"
             value={
-              this.state.eventDescription !== undefined
-                ? this.state.eventDescription
-                : initialValues.eventDescription
+              this.state.description !== undefined
+                ? this.state.description
+                : initialValues.description
             }
             onChange={this.handleChange}
           />
         </div>
 
         <div>
-          <label htmlFor="pictureUrl">Add picture URL</label>
+          <label htmlFor="imgUrl">Add picture URL</label>
           <input
-            name="pictureUrl"
-            id="pictureUrl"
+            name="imgUrl"
+            id="imgUrl"
             value={
-              this.state.pictureUrl !== undefined
-                ? this.state.pictureUrl
-                : initialValues.pictureUrl
+              this.state.imgUrl !== undefined
+                ? this.state.imgUrl
+                : initialValues.imgUrl
             }
             onChange={this.handleChange}
           />
@@ -95,6 +89,8 @@ class EventForm extends PureComponent {
           <input
             name="startDate"
             id="startDate"
+            input
+            type="date"
             value={
               this.state.startDate !== undefined
                 ? this.state.startDate
@@ -109,6 +105,8 @@ class EventForm extends PureComponent {
           <input
             name="endDate"
             id="endDate"
+            input
+            type="date"
             value={
               this.state.endDate !== undefined
                 ? this.state.endDate

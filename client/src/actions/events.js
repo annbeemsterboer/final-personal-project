@@ -92,7 +92,6 @@ export const getFraudParams = (eventId, ticketId) => dispatch => {
 
 export const createEvent = eventDetails => (dispatch, getState) => {
   const state = getState()
-  console.log(state)
   const jwt = state.currentUser.jwt
 
   if (isExpired(jwt)) return dispatch(logout())
@@ -100,12 +99,15 @@ export const createEvent = eventDetails => (dispatch, getState) => {
   request
     .post(`${baseUrl}/events`)
     .set('Authorization', `Bearer ${jwt}`)
-    .send({ eventDetails })
+    .send(eventDetails)
     .then(result => dispatch(addEvent(result.body)))
     .catch(err => console.error(err))
 }
 
-const addEvent = event => ({
-  type: ADD_EVENT,
-  payload: event
-})
+export const addEvent = event => (
+  console.log('here'),
+  {
+    type: ADD_EVENT,
+    payload: event
+  }
+)

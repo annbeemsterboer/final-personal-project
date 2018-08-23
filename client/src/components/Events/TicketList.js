@@ -22,6 +22,9 @@ class EventDetails extends PureComponent {
     if (tickets.length < 1) return <div>There are no tickets yet..</div>
     return (
       <div>
+        <Button size="large" color="primary">
+          <Link to={`/createTicket`}>Sell ticket for this event</Link>
+        </Button>
         {tickets.map(ticket => {
           return (
             <Card
