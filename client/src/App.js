@@ -9,10 +9,7 @@ import './App.css'
 import TopBar from './components/layout/TopBar'
 import TicketDetails from './components/Events/TicketDetails'
 import EventForm from './components/Events/EventForm'
-
-// <Route exact path="/signup" component={SignupPage} />
-// <Route exact path="/games" component={GamesList} />
-// <Route exact path="/games/:id" component={GameDetails} />
+import TicketForm from './components/Events/TicketForm'
 
 class App extends Component {
   render() {
@@ -29,6 +26,7 @@ class App extends Component {
             <Route exact path="/events" component={EventList} />
             <Route exact path="/events/:id" component={EventDetails} />
             <Route exact path="/createEvent" component={EventForm} />
+            <Route exact path="/createTicket" component={TicketForm} />
             <Route
               exact
               path="/events/:eventId/tickets/:ticketId"
