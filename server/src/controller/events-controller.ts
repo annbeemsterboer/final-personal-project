@@ -3,14 +3,10 @@ import {
   Authorized,
   Post,
   Param,
-  BadRequestError,
   HttpCode,
   NotFoundError,
-  ForbiddenError,
   Get,
   Body,
-  Patch,
-  Params,
   CurrentUser,
   Put
 } from 'routing-controllers'
@@ -42,7 +38,6 @@ export default class EventController {
     return { events }
   }
 
-  //   @Authorized()
   @Get('/events/:eventID([0-9]+)')
   async getEvent(@Param('eventID') eventID) {
     const event = await Event.findOne(eventID)
@@ -99,7 +94,6 @@ export default class EventController {
   @Post('/events/:eventID')
   @HttpCode(201)
   async createTicket(
-    // @CurrentUser() user: User,
     @Param('eventID') eventID: number,
     @Body() ticket: Ticket
   ) {
@@ -122,26 +116,22 @@ export default class EventController {
     const ticket = await Ticket.findOne(ticketID)
     if (!ticket) throw new NotFoundError('Ticket not found!')
 
-    // const currentUser = await User.findOne(user)
-    // if (currentUser.id !== ticket.userId)
-    //   throw new ForbiddenError('Unauthorized!')
-
     return Ticket.merge(ticket, update).save()
   }
 
   ////// ??????????
-  @Post('/events/:eventID/tickets/:ticketID')
-  @HttpCode(201)
-  async addComment(
-    @Param('eventID') eventID: number,
-    @Param('ticketID') ticketID: number,
-    @Body() data: Comment
-  ) {
-    const { comment, ...rest } = data
-    const entity = Comment.create(rest)
-    // await entity.getComment(comment)
+  // @Post('/events/:eventID/tickets/:ticketID')
+  // @HttpCode(201)
+  // async addComment(
+  //   @Param('eventID') eventID: number,
+  //   @Param('ticketID') ticketID: number,
+  //   @Body() data: Comment
+  // ) {
+  //   const { comment, ...rest } = data
+  //   const entity = Comment.create(rest)
+  //   // await entity.getComment(comment)
 
-    const newComment = await entity.save()
-    return newComment
-  }
+  //   const newComment = await entity.save()
+  //   return newComment
+  // }
 }

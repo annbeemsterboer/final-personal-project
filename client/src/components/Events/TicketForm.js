@@ -9,7 +9,6 @@ class TicketForm extends PureComponent {
   state = {
     userId: this.props.userId,
     eventId: this.props.currentEvent.event.id
-    // createdAt: new Date(Date.now() * 1000)
   }
 
   onSubmit = ticket => {
@@ -36,7 +35,6 @@ class TicketForm extends PureComponent {
   }
 
   render() {
-    console.log(this.props)
     if (this.props.authenticated === false) {
       return <Redirect to="/login" />
     }

@@ -28,11 +28,43 @@ class EventDetails extends PureComponent {
           </Button>
         </div>
       )
+    if (tickets.id)
+      return (
+        <Card
+          style={{
+            paddingBottom: '10px',
+            paddingTop: '10px',
+            margin: 12
+          }}
+        >
+          <CardContent>
+            <Typography gutterBottom variant="headline" component="h2">
+              {this.props.currentEvent.event.eventName}
+            </Typography>
+            <Typography component="p">
+              Price: &euro;
+              {tickets.price}
+            </Typography>
+            <CardActions>
+              <Button size="small" color="primary">
+                <Link
+                  to={`/events/${this.props.currentEvent.event.id}/tickets/${
+                    tickets.id
+                  }`}
+                >
+                  See tickets details
+                </Link>
+              </Button>
+            </CardActions>
+          </CardContent>
+        </Card>
+      )
     return (
       <div>
         <Button size="large" color="primary">
           <Link to={`/createTicket`}>Sell ticket for this event</Link>
         </Button>
+
         {tickets.map(ticket => {
           return (
             <Card

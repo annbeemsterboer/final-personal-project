@@ -4,7 +4,6 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn
-  // OneToMany
 } from 'typeorm'
 import { IsString } from 'class-validator'
 
