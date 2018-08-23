@@ -25,10 +25,6 @@ class EventList extends PureComponent {
     this.props.getAllEvents()
   }
 
-  // createEvent = event => {
-  //   this.props.createAdd(add)
-  // }
-
   render() {
     const { events } = this.props
     if (!events) return 'fetching events..'

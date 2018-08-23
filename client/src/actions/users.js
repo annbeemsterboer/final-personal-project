@@ -98,11 +98,15 @@ export const getPosterById = userId => dispatch => {
   request
     .get(`${baseUrl}/users/${userId}`)
     // .set('Authorization', `Bearer ${jwt}`)
-    .then(response =>
-      dispatch({
-        type: GET_POSTER,
-        payload: response.body
-      })
+    .then(
+      response => {
+        return response.body
+      }
+
+      // dispatch({
+      //   type: GET_POSTER,
+      //   payload: response.body
+      // })
     )
     .catch(err => console.error(err))
 }

@@ -13,6 +13,9 @@ import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
+import { Link } from 'react-router-dom'
+
+// const commentPoster = poster.find(poster => poster.id === comment.userId)
 
 class TicketDetails extends PureComponent {
   componentDidMount() {
@@ -24,9 +27,6 @@ class TicketDetails extends PureComponent {
       this.props.match.params.eventId,
       this.props.match.params.ticketId
     )
-
-    // this.props.getPosterById(this.props.currentTicket.userId)
-    // const posterId = Number(this.props.currentTicket.userId)
   }
 
   componentDidUpdate(prevProps) {
@@ -92,10 +92,21 @@ class TicketDetails extends PureComponent {
   }
 
   render() {
-    const { currentTicket, comments, fraudParams } = this.props
-    if (!currentTicket || !fraudParams.ticketPoster) return 'loading ..'
+    const {
+      currentTicket,
+      currentEvent,
+      comments,
+      poster,
+      fraudParams
+    } = this.props
+    if (!currentTicket || !fraudParams.ticketPoster || !currentEvent)
+      return 'loading ..'
+
     return (
       <div>
+        <Button size="small" color="primary">
+          <Link to={`/events/${currentEvent.event.id}`}> Back to tickets</Link>
+        </Button>
         <Grid>
           <CardContent>
             <Typography gutterBottom variant="headline" component="h1">
@@ -111,6 +122,8 @@ class TicketDetails extends PureComponent {
 
             <Grid>
               {comments.map(comment => {
+                this.props.getPosterById(Number(comment.userId))
+
                 return (
                   <Card
                     style={{
@@ -119,8 +132,9 @@ class TicketDetails extends PureComponent {
                       margin: 12
                     }}
                   >
-                    At {new Date(comment.createdAt).toUTCString()},{' '}
-                    {comment.userId} posted: {comment.comment}
+                    At {new Date(comment.createdAt).toUTCString()},
+                    {/* {commentPoster.firstName} */}a user posted:{' '}
+                    {comment.comment}
                   </Card>
                 )
               })}

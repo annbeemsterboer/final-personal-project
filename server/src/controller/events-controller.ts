@@ -11,7 +11,8 @@ import {
   Body,
   Patch,
   Params,
-  CurrentUser
+  CurrentUser,
+  Put
 } from 'routing-controllers'
 import Event from '../entity/events-entity'
 import { Ticket, Comment } from '../entity/tickets-entity'
@@ -108,6 +109,22 @@ export default class EventController {
     }
 
     return ticket.save()
+  }
+
+  @Authorized()
+  @Put('/events/:eventID/tickets/:ticketID')
+  async updateTicket(
+    @CurrentUser() user: User,
+    @Param('eventID') eventID: number,
+    @Param('ticketID') ticketID: number,
+    @Body() update: Partial<Ticket>
+  ) {
+    const ticket = await Ticket.findOne(ticketID)
+    if (!ticket) throw new NotFoundError('Ticket not found!')
+
+    if (user.id !== ticket.userId) throw new ForbiddenError('Unauthorized!')
+
+    return Ticket.merge(ticket, update).save()
   }
 
   ////// ??????????

@@ -29,7 +29,7 @@ export default (state = [], action) => {
     //   }, {})
 
     case GET_POSTER:
-      return action.payload
+      return [...state, action.payload]
 
     default:
       return state
