@@ -114,7 +114,7 @@ export default class EventController {
   @Authorized()
   @Put('/events/:eventID/tickets/:ticketID')
   async updateTicket(
-    @CurrentUser() user: User,
+    // @CurrentUser() user: User,
     @Param('eventID') eventID: number,
     @Param('ticketID') ticketID: number,
     @Body() update: Partial<Ticket>
@@ -122,7 +122,9 @@ export default class EventController {
     const ticket = await Ticket.findOne(ticketID)
     if (!ticket) throw new NotFoundError('Ticket not found!')
 
-    if (user.id !== ticket.userId) throw new ForbiddenError('Unauthorized!')
+    // const currentUser = await User.findOne(user)
+    // if (currentUser.id !== ticket.userId)
+    //   throw new ForbiddenError('Unauthorized!')
 
     return Ticket.merge(ticket, update).save()
   }

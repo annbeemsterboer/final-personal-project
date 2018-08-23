@@ -2,18 +2,18 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button'
 import { userId } from '../../jwt'
-import { createTicket } from '../../actions/events'
+import { editTicket } from '../../actions/events'
 import { Redirect } from 'react-router-dom'
 
-class TicketForm extends PureComponent {
-  state = {
-    userId: this.props.userId,
-    eventId: this.props.currentEvent.event.id
-    // createdAt: new Date(Date.now() * 1000)
-  }
+class EditTicket extends PureComponent {
+  state = {}
 
-  onSubmit = ticket => {
-    this.props.createTicket(ticket, this.props.currentEvent.event.id)
+  onSubmit = update => {
+    this.props.editTicket(
+      update,
+      this.props.currentEvent.event.id,
+      this.props.currentTicket.id
+    )
     this.props.history.push(`/events/${this.props.currentEvent.event.id}`)
   }
 
@@ -36,7 +36,7 @@ class TicketForm extends PureComponent {
   }
 
   render() {
-    console.log(this.props)
+    console.log(this.state)
     if (this.props.authenticated === false) {
       return <Redirect to="/login" />
     }
@@ -44,10 +44,12 @@ class TicketForm extends PureComponent {
     if (!this.props.currentEvent) return 'loading..'
     return (
       <div>
-        <div>Add a ticket for {this.props.currentEvent.event.eventName}</div>
+        <div>
+          Edit your ticket for {this.props.currentEvent.event.eventName}
+        </div>
         <form onSubmit={this.handleSubmit}>
           <div>
-            <label htmlFor="price">Price</label>
+            <label htmlFor="price">New price</label>
             <input
               name="price"
               input
@@ -63,7 +65,7 @@ class TicketForm extends PureComponent {
           </div>
 
           <div>
-            <label htmlFor="description">Description</label>
+            <label htmlFor="description">New description</label>
             <input
               name="description"
               id="description"
@@ -77,7 +79,7 @@ class TicketForm extends PureComponent {
           </div>
 
           <div>
-            <label htmlFor="imgUrl">Add picture URL</label>
+            <label htmlFor="imgUrl">Change picture URL</label>
             <input
               name="imgUrl"
               id="imgUrl"
@@ -91,7 +93,7 @@ class TicketForm extends PureComponent {
           </div>
 
           <Button variant="contained" color="primary" type="submit">
-            Add ticket
+            Change ticket
           </Button>
         </form>
       </div>
@@ -104,11 +106,12 @@ const mapStateToProps = state => {
     authenticated: state.currentUser !== null,
     currentUser: state.currentUser,
     userId: state.currentUser && userId(state.currentUser.jwt),
-    currentEvent: state.currentEvent
+    currentEvent: state.currentEvent,
+    currentTicket: state.currentTicket
   }
 }
 
 export default connect(
   mapStateToProps,
-  { createTicket }
-)(TicketForm)
+  { editTicket }
+)(EditTicket)

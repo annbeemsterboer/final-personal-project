@@ -9,8 +9,6 @@ class SignupForm extends PureComponent {
   handleSubmit = e => {
     e.preventDefault()
     this.props.onSubmit(this.state)
-    console.log(this.state)
-    // this.props.signup(this.state.email, this.state.password)
   }
 
   handleChange = event => {

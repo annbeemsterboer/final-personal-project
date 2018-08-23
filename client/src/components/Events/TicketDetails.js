@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import { Link } from 'react-router-dom'
+import { userId } from '../../jwt'
 
 // const commentPoster = poster.find(poster => poster.id === comment.userId)
 
@@ -119,7 +120,21 @@ class TicketDetails extends PureComponent {
                 {parseInt(this.calculateFraudRisk() * 100)} %
               </Typography>
             </Typography>
-
+            {currentTicket &&
+              Number(this.props.currentTicket.userId) === this.props.userId && (
+                <CardActions>
+                  <Button size="small" color="primary">
+                    <Link
+                      to={`/events/${currentEvent.event.id}/tickets/${
+                        currentTicket.id
+                      }/edit`}
+                    >
+                      {' '}
+                      Edit your ticket
+                    </Link>
+                  </Button>
+                </CardActions>
+              )}
             <Grid>
               {comments.map(comment => {
                 this.props.getPosterById(Number(comment.userId))
@@ -162,7 +177,8 @@ const mapStateToProps = state => {
     tickets: state.tickets,
     currentTicket: state.currentTicket,
     comments: state.comments,
-    fraudParams: state.fraudParams
+    fraudParams: state.fraudParams,
+    userId: state.currentUser && userId(state.currentUser.jwt)
   }
 }
 

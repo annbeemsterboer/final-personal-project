@@ -38,29 +38,12 @@ useKoaServer(app, {
 
       if (token) {
         const { id } = verify(token)
-        return User.findOneById(id)
+        return User.findOne(id)
       }
     }
     return undefined
   }
 })
-
-// io.use(
-//   socketIoJwtAuth.authenticate({ secret }, async (payload, done) => {
-//     const user = await User.findOneById(payload.id)
-//     if (user) done(null, user)
-//     else done(null, false, `Invalid JWT user ID`)
-//   })
-// )
-
-// io.on('connect', socket => {
-//   const name = socket.request.user.firstName
-//   console.log(`User ${name} just connected`)
-
-//   socket.on('disconnect', () => {
-//     console.log(`User ${name} just disconnected`)
-//   })
-// })
 
 setupDb()
   .then(_ => {

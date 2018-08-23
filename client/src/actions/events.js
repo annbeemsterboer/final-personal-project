@@ -12,6 +12,7 @@ export const UPDATE_COMMENTS = 'UPDATE_COMMENTS'
 export const GET_FRAUD_PARAMS = 'GET_FRAUD_PARAMS'
 export const ADD_EVENT = 'ADD_EVENT'
 export const ADD_TICKET = 'ADD_TICKET'
+export const UPDATE_TICKET = 'UPDATE_TICKET'
 
 export const getAllEvents = () => dispatch => {
   request
@@ -127,10 +128,32 @@ export const createTicket = (ticketDetails, eventId) => (
     .catch(err => console.error(err))
 }
 
-export const addTicket = ticket => (
+export const addTicket = ticket => ({
+  type: ADD_TICKET,
+  payload: ticket
+})
+
+export const editTicket = (newTicketDetails, eventId, ticketId) => (
+  dispatch,
+  getState
+) => {
+  const state = getState()
+  const jwt = state.currentUser.jwt
+
+  if (isExpired(jwt)) return dispatch(logout())
+
+  request
+    .put(`${baseUrl}/events/${eventId}/tickets/${ticketId}`)
+    .set('Authorization', `Bearer ${jwt}`)
+    .send(newTicketDetails)
+    .then(result => dispatch(updateTicket(result.body)))
+    .catch(err => console.error(err))
+}
+
+export const updateTicket = ticket => (
   console.log('here'),
   {
-    type: ADD_TICKET,
+    type: UPDATE_TICKET,
     payload: ticket
   }
 )

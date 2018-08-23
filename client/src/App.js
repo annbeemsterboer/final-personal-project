@@ -10,6 +10,7 @@ import TopBar from './components/layout/TopBar'
 import TicketDetails from './components/Events/TicketDetails'
 import EventForm from './components/Events/EventForm'
 import TicketForm from './components/Events/TicketForm'
+import EditTicket from './components/Events/EditTicket'
 
 class App extends Component {
   render() {
@@ -31,6 +32,11 @@ class App extends Component {
               exact
               path="/events/:eventId/tickets/:ticketId"
               component={TicketDetails}
+            />
+            <Route
+              exact
+              path="/events/:eventId/tickets/:ticketId/edit"
+              component={EditTicket}
             />
             <Route exact path="/" render={() => <Redirect to="/events" />} />
           </main>

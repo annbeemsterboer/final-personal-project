@@ -102,7 +102,6 @@ export const getPosterById = userId => dispatch => {
       response => {
         return response.body
       }
-
       // dispatch({
       //   type: GET_POSTER,
       //   payload: response.body
