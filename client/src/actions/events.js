@@ -11,6 +11,7 @@ export const GET_COMMENTS = 'GET_COMMENTS'
 export const UPDATE_COMMENTS = 'UPDATE_COMMENTS'
 export const GET_FRAUD_PARAMS = 'GET_FRAUD_PARAMS'
 export const ADD_EVENT = 'ADD_EVENT'
+export const ADD_TICKET = 'ADD_TICKET'
 
 export const getAllEvents = () => dispatch => {
   request
@@ -104,10 +105,32 @@ export const createEvent = eventDetails => (dispatch, getState) => {
     .catch(err => console.error(err))
 }
 
-export const addEvent = event => (
+export const addEvent = event => ({
+  type: ADD_EVENT,
+  payload: event
+})
+
+export const createTicket = (ticketDetails, eventId) => (
+  dispatch,
+  getState
+) => {
+  const state = getState()
+  const jwt = state.currentUser.jwt
+
+  if (isExpired(jwt)) return dispatch(logout())
+
+  request
+    .post(`${baseUrl}/events/${eventId}`)
+    .set('Authorization', `Bearer ${jwt}`)
+    .send(ticketDetails)
+    .then(result => dispatch(addTicket(result.body)))
+    .catch(err => console.error(err))
+}
+
+export const addTicket = ticket => (
   console.log('here'),
   {
-    type: ADD_EVENT,
-    payload: event
+    type: ADD_TICKET,
+    payload: ticket
   }
 )
