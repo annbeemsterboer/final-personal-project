@@ -20,10 +20,10 @@ export class Ticket extends BaseEntity {
   price: number
 
   @IsString()
-  @Column('text')
+  @Column('text', { nullable: true })
   description: string
 
-  @Column('text')
+  @Column('text', { nullable: true })
   imgUrl?: string
 
   @CreateDateColumn({ type: 'timestamp' })

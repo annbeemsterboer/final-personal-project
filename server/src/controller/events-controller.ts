@@ -10,7 +10,8 @@ import {
   Get,
   Body,
   Patch,
-  Params
+  Params,
+  CurrentUser
 } from 'routing-controllers'
 import Event from '../entity/events-entity'
 import { Ticket, Comment } from '../entity/tickets-entity'
@@ -41,16 +42,19 @@ export default class EventController {
   }
 
   //   @Authorized()
-  @Get('/events/:eventId([0-9]+)')
-  async getEvent(@Param('eventId') eventId) {
-    const event = await Event.findOne(eventId)
+  @Get('/events/:eventID([0-9]+)')
+  async getEvent(@Param('eventID') eventID) {
+    const event = await Event.findOne(eventID)
+    if (!event) throw new NotFoundError('Event not found!')
     return { event }
   }
 
   @Get('/events/:eventID/tickets')
   // get tickets where tickets-eventId === :eventId
   getTicketsForEvent(@Param('eventID') eventID) {
-    return Ticket.find({ where: { eventId: eventID } })
+    const ticket = Ticket.find({ where: { eventId: eventID } })
+    if (!ticket) throw new NotFoundError('Ticket not found!')
+    return ticket
   }
 
   @Get('/events/:eventID/tickets/:ticketID')
@@ -59,8 +63,10 @@ export default class EventController {
     @Param('ticketID') ticketID: number
   ) {
     const ticketsForEvent = await Ticket.find({ where: { eventId: eventID } })
+    if (!ticketsForEvent) throw new NotFoundError('Tickets not found!')
     const ticket = await ticketsForEvent.find(ticket => ticket.id === ticketID)
     const comments = await Comment.find({ where: { ticketId: ticketID } })
+    if (!comments) throw new NotFoundError('No comments found!')
     const ticketUserId = await Number(ticket.userId)
     const ticketPoster = await User.findOne(ticketUserId)
 
@@ -84,8 +90,24 @@ export default class EventController {
   @Authorized()
   @Post('/events')
   @HttpCode(201)
-  createAdd(@Body() event: Event) {
+  createEvent(@Body() event: Event) {
     return event.save()
+  }
+
+  @Authorized()
+  @Post('/events/:eventID')
+  @HttpCode(201)
+  async createTicket(
+    // @CurrentUser() user: User,
+    @Param('eventID') eventID: number,
+    @Body() ticket: Ticket
+  ) {
+    const entity = await Ticket.create(ticket)
+    if (entity) {
+      entity.eventId = eventID
+    }
+
+    return ticket.save()
   }
 
   ////// ??????????
