@@ -143,7 +143,7 @@ export const editTicket = (newTicketDetails, eventId, ticketId) => (
   if (isExpired(jwt)) return dispatch(logout())
 
   request
-    .put(`${baseUrl}/events/${eventId}/tickets/${ticketId}`)
+    .patch(`${baseUrl}/events/${eventId}/tickets/${ticketId}`)
     .set('Authorization', `Bearer ${jwt}`)
     .send(newTicketDetails)
     .then(result => dispatch(updateTicket(result.body)))

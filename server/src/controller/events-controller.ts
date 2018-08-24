@@ -8,7 +8,8 @@ import {
   Get,
   Body,
   CurrentUser,
-  Put
+  Put,
+  Patch
 } from 'routing-controllers'
 import Event from '../entity/events-entity'
 import { Ticket, Comment } from '../entity/tickets-entity'
@@ -106,7 +107,7 @@ export default class EventController {
   }
 
   @Authorized()
-  @Put('/events/:eventID/tickets/:ticketID')
+  @Patch('/events/:eventID/tickets/:ticketID')
   async updateTicket(
     // @CurrentUser() user: User,
     @Param('eventID') eventID: number,

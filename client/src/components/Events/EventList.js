@@ -11,16 +11,6 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 
 class EventList extends PureComponent {
-  // state = {
-  //   edit: false
-  // }
-
-  //   toggleEdit = () => {
-  //       this.setState({
-  //           edit: !this.state.edit
-  //       })
-  //   }
-
   componentWillMount() {
     this.props.getAllEvents()
   }
@@ -46,6 +36,12 @@ class EventList extends PureComponent {
                 }}
               >
                 <Card>
+                  <CardMedia>
+                    <img
+                      src={event.imgUrl}
+                      style={{ width: '300px', height: '150px' }}
+                    />
+                  </CardMedia>
                   <CardContent>
                     <Typography>{event.eventName}</Typography>
                     <Typography>{event.description}</Typography>

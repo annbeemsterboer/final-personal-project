@@ -8,13 +8,15 @@ export default function(state = [], action) {
     case ADD_TICKET:
       return [...state, action.payload]
     case UPDATE_TICKET:
-      if (state.length > 1) return [...state, action.payload]
-      // return [...state, action.payload].filter(item => item. ?
+      if (state.length > 1)
+        return [state, action.payload].reduce((tickets, ticket) => {
+          tickets[ticket.id] = ticket
+
+          // tickets.find(ticket => ticket[ticket.id] === action.payload.id)
+          return tickets
+        }, {})
       else return action.payload
     default:
       return state
   }
 }
-
-// if (Object.values(state).includes(action.payload[id]) === true)
-//   return [...state]
