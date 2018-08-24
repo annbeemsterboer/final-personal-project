@@ -11,7 +11,6 @@ import { Server } from 'http'
 
 const app = new Koa()
 const server = new Server(app.callback())
-// export const io = IO(server)
 const port = process.env.PORT || 4000
 
 useKoaServer(app, {

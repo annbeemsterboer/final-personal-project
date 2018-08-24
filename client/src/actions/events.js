@@ -150,10 +150,7 @@ export const editTicket = (newTicketDetails, eventId, ticketId) => (
     .catch(err => console.error(err))
 }
 
-export const updateTicket = ticket => (
-  console.log('here'),
-  {
-    type: UPDATE_TICKET,
-    payload: ticket
-  }
-)
+export const updateTicket = ticket => ({
+  type: UPDATE_TICKET,
+  payload: ticket
+})

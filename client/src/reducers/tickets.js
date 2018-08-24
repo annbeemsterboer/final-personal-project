@@ -12,7 +12,6 @@ export default function(state = [], action) {
         return state
           .filter(ticket => ticket.id !== action.payload.id)
           .concat(action.payload)
-      // tickets[action.payload.id] = action.payload
       else return action.payload
     default:
       return state

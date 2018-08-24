@@ -9,14 +9,11 @@ import { getPosterById } from '../../actions/users'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
-// import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import { Link } from 'react-router-dom'
 import { userId } from '../../jwt'
-
-// const commentPoster = poster.find(poster => poster.id === comment.userId)
 
 class TicketDetails extends PureComponent {
   componentDidMount() {
@@ -29,22 +26,6 @@ class TicketDetails extends PureComponent {
       this.props.match.params.ticketId
     )
   }
-
-  componentDidUpdate(prevProps) {
-    // if (this.props.currentTicket !== prevProps.currentTicket) {
-    //   this.props.getPosterById(this.props.currentTicket.userId)
-    // }
-    // if (this.props.comments.length > prevProps.comments.length) {
-    //   this.props.updateComments(
-    //     this.props.match.params.eventId,
-    //     this.props.match.params.ticketId
-    //   )
-    // }
-  }
-
-  //   handleCommentSubmit = () => {
-  //     this.props.addComment()
-  //   }
 
   calculateFraudRisk = () => {
     let fraudFactor = 0.02
@@ -100,14 +81,18 @@ class TicketDetails extends PureComponent {
       poster,
       fraudParams
     } = this.props
-    if (!currentTicket || !fraudParams.ticketPoster || !currentEvent)
-      return 'loading ..'
+    if (!currentTicket || !fraudParams.ticketPoster) return 'loading ..'
 
     return (
       <div>
-        <Button size="small" color="primary">
-          <Link to={`/events/${currentEvent.event.id}`}> Back to tickets</Link>
-        </Button>
+        {currentEvent && (
+          <Button size="small" color="primary">
+            <Link to={`/events/${currentEvent.event.id}`}>
+              {' '}
+              Back to tickets
+            </Link>
+          </Button>
+        )}
         <Grid>
           <CardContent>
             <Typography gutterBottom variant="headline" component="h1">

@@ -7,8 +7,6 @@ import {
   NotFoundError,
   Get,
   Body,
-  CurrentUser,
-  Put,
   Patch
 } from 'routing-controllers'
 import Event from '../entity/events-entity'
@@ -32,7 +30,6 @@ const avgPriceForEvent = (ticketsForEvent, ticket) => {
 
 @JsonController()
 export default class EventController {
-  // @Authorized()
   @Get('/events')
   async getEvents() {
     const events = await Event.find()
@@ -109,7 +106,6 @@ export default class EventController {
   @Authorized()
   @Patch('/events/:eventID/tickets/:ticketID')
   async updateTicket(
-    // @CurrentUser() user: User,
     @Param('eventID') eventID: number,
     @Param('ticketID') ticketID: number,
     @Body() update: Partial<Ticket>

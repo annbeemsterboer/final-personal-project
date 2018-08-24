@@ -17,6 +17,9 @@ const TopBar = props => {
         <Typography variant="title" color="inherit" style={{ flex: 1 }}>
           TicketZwap 2.0
         </Typography>
+        <Button color="inherit" onClick={() => history.push('/events')}>
+          Home
+        </Button>
         {user && (
           <Button color="inherit">
             <AccountIcon /> {user.firstName}
