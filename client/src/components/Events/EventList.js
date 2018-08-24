@@ -39,7 +39,7 @@ class EventList extends PureComponent {
                   <CardMedia>
                     <img
                       src={event.imgUrl}
-                      style={{ width: '300px', height: '150px' }}
+                      style={{ width: '260px', height: '140px' }}
                     />
                   </CardMedia>
                   <CardContent>
