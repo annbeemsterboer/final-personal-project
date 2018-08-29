@@ -1,4 +1,3 @@
-// import games from './games'
 import poster from './users'
 import login from './login'
 import currentUser from './currentUser'
@@ -11,7 +10,6 @@ import comments from './comments'
 import fraudParams from './fraudParams'
 
 export default {
-  // games,
   poster,
   login,
   currentUser,

@@ -27,11 +27,9 @@ class EditTicket extends PureComponent {
     this.onSubmit(this.state)
   }
 
-  handleChange = event => {
-    const { name, value } = event.target
-
+  handleChange = name => event => {
     this.setState({
-      [name]: value
+      [name]: event.target.value
     })
   }
 
