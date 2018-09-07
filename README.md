@@ -1,1 +1,2 @@
-# Final personal project for graduation of Codaisseur Academy
+
+Final personal project for graduation of Codaisseur Academy
