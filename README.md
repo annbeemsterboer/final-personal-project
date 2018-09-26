@@ -6,7 +6,7 @@ This is a full-stack Javascript application bootstrapped with create-react-app u
 
 
 
-yarn install && yarn start form /client to start the app
+yarn install && yarn start from /client to start the app
 
 yarn install to install dependencies in /server
 
