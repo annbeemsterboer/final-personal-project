@@ -34,9 +34,7 @@ class CustomNamingStrategy extends DefaultNamingStrategy
 export default () =>
   createConnection({
     type: 'postgres',
-    url:
-      process.env.DATABASE_URL ||
-      'postgres://postgres:secret@localhost:5432/postgres',
+    url: `postgres://postgres:secret@localhost:5432/postgres`,
     entities: [User, Event, Ticket, Comment],
     synchronize: false, // careful with this in production!
     logging: true,
